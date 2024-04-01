@@ -16,59 +16,48 @@ class SampleViewController: UIViewController {
     let textField = SignTextField(placeholderText: "내용을 입력해 주세요")
     let tableView = UITableView()
     
-    let inputText = PublishSubject<String>()
+    var inputTextList: [String] = []
+    let inputText = PublishSubject<[String]>()
     
     let disposeBag = DisposeBag()
     
-    // 퍼블릭으로 아이템 담기ㅂ
-   // let list: PublishSubject
-
     override func viewDidLoad() {
         super.viewDidLoad()
         configureLayout()
         bind()
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
     }
 
     func bind() {
-        inputText.bind(to: tableView.rx.items(cellIdentifier: "Cell", cellType: UITableViewCell.self)) { (row, element, cell) in
+        
+        inputText.bind(to: tableView.rx.items(cellIdentifier: "cell", cellType: UITableViewCell.self)) { (indexpath, element, cell) in
             cell.textLabel?.text = "\(element)"
         }
         .disposed(by: disposeBag)
         
-        addButton.rx.tap.subscribe(with: self) { owner, _ in
-            owner.textField.rx.text.orEmpty.subscribe(with: self) { owner, text in
-                owner.inputText.onNext(text)
+        tableView.rx.itemSelected
+            .bind(with: self) { owner, indexPath in
+                owner.inputTextList.remove(at: indexPath.row)
+                owner.inputText.onNext(owner.inputTextList)
             }
-        }
-        .disposed(by: disposeBag)
-        
-//        textField.rx.controlEvent([.editingDidEnd, .editingDidBegin])
-//            .asObservable()
-//            .subscribe(with: self) { owner, value in
-////                owner.inputText.onNext(value)
-//            print(owner.inputText)
-//        }
-//        .disposed(by: disposeBag)
-        
-        textField
-              .rx.textInput.text.orEmpty
-              .asDriver()
-              .drive(onNext: { [unowned self] text in
-                  print(text)
-              })
-              .disposed(by: disposeBag)
-        
-        
-        tableView.rx.itemSelected.subscribe(with: self) { owner, indexPath in
-            print(indexPath.row)
-           
-        }
-        .disposed(by: disposeBag)
-        
-        tableView.rx.itemDeleted
-            .subscribe(with: self, onNext: { owner, indexPath in
-            })
             .disposed(by: disposeBag)
+        
+        
+        textField.rx
+            .controlEvent([.editingDidEndOnExit])
+            .withLatestFrom(textField.rx.text.orEmpty)
+            .distinctUntilChanged()
+            .bind(with: self) { owner, value in
+                owner.inputTextList.append(value)
+            }
+            .disposed(by: disposeBag)
+
+        
+        addButton.rx.tap.subscribe(with: self) { owner, _ in
+            owner.inputText.onNext(owner.inputTextList)
+        }
+        .disposed(by: disposeBag)
+        
     }
 
     func configureLayout() {
