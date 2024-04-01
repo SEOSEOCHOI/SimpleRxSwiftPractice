@@ -110,21 +110,18 @@ class BirthdayViewController: UIViewController {
                 owner.day.onNext(component.day!)
             }
             .disposed(by: disposeBag)
-        /*
-         let validation = birthDayPicker.rx.date
-             .map { let date1 = Calendar.current.dateComponents([.month], from: $0)
-                 let date2 = Calendar.current.dateComponents([.month], from: Date())
-                 Int(exactly: date1.month!)! > Int(exactly: date2.month!)!
-             }
+
+        let validation = birthDayPicker.rx.date
+            .map { Calendar.current.date(byAdding: .year, value: 17, to: $0)! <= Date()}
          
          
          validation.bind(with: self) { owner, value in
              let textColor: UIColor = value ? .systemBlue : .systemRed
              let buttonColor: UIColor = value ? .systemBlue : .lightGray
-             let infoText: String = value ? "만 17세 이상 가입 가능합니다."  : "가입 가능합니다."
+             let infoText: String = value ? "가입 가능합니다." : "만 17세 이상 가입 가능합니다."
              
              
-             owner.infoLabel.backgroundColor = textColor
+             owner.infoLabel.textColor = textColor
              
              owner.nextButton.backgroundColor = buttonColor
              owner.nextButton.isEnabled = value
@@ -132,7 +129,7 @@ class BirthdayViewController: UIViewController {
              owner.validationText.on(.next(infoText))
          }
          .disposed(by: disposeBag)
-         */
+         
       
         
         validationText
