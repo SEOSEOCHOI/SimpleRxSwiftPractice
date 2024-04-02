@@ -30,6 +30,10 @@
 		041280782AF1D14000972552 /* Resource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041280772AF1D14000972552 /* Resource.swift */; };
 		2BB8CA282BB6E9D7008A2AD9 /* SampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BB8CA272BB6E9D7008A2AD9 /* SampleViewController.swift */; };
 		2BB8CA2A2BB70613008A2AD9 /* BirthDayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BB8CA292BB70613008A2AD9 /* BirthDayViewModel.swift */; };
+		2BBF330F2BBBF0AB006C2435 /* ShoppingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BBF330E2BBBF0AB006C2435 /* ShoppingViewController.swift */; };
+		2BBF33112BBBF149006C2435 /* ShoppingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BBF33102BBBF149006C2435 /* ShoppingView.swift */; };
+		2BBF33142BBBF37A006C2435 /* ShoppingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BBF33132BBBF37A006C2435 /* ShoppingTableViewCell.swift */; };
+		2BBF33162BBC271D006C2435 /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BBF33152BBC271D006C2435 /* EditViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +78,10 @@
 		041280772AF1D14000972552 /* Resource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resource.swift; sourceTree = "<group>"; };
 		2BB8CA272BB6E9D7008A2AD9 /* SampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleViewController.swift; sourceTree = "<group>"; };
 		2BB8CA292BB70613008A2AD9 /* BirthDayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirthDayViewModel.swift; sourceTree = "<group>"; };
+		2BBF330E2BBBF0AB006C2435 /* ShoppingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingViewController.swift; sourceTree = "<group>"; };
+		2BBF33102BBBF149006C2435 /* ShoppingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingView.swift; sourceTree = "<group>"; };
+		2BBF33132BBBF37A006C2435 /* ShoppingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingTableViewCell.swift; sourceTree = "<group>"; };
+		2BBF33152BBC271D006C2435 /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,6 +138,7 @@
 				041280532AEF9C1F00972552 /* SignUp */,
 				041280542AEF9C2600972552 /* SignIn */,
 				0412806D2AEFAD0F00972552 /* SignUpOptional */,
+				2BBF33122BBBF14F006C2435 /* Shopping */,
 				041280612AEFA0BE00972552 /* CustomView */,
 				041280232AEF9BAB00972552 /* AppDelegate.swift */,
 				041280252AEF9BAB00972552 /* SceneDelegate.swift */,
@@ -196,6 +205,17 @@
 				2BB8CA292BB70613008A2AD9 /* BirthDayViewModel.swift */,
 			);
 			path = SignUpOptional;
+			sourceTree = "<group>";
+		};
+		2BBF33122BBBF14F006C2435 /* Shopping */ = {
+			isa = PBXGroup;
+			children = (
+				2BBF330E2BBBF0AB006C2435 /* ShoppingViewController.swift */,
+				2BBF33102BBBF149006C2435 /* ShoppingView.swift */,
+				2BBF33132BBBF37A006C2435 /* ShoppingTableViewCell.swift */,
+				2BBF33152BBC271D006C2435 /* EditViewController.swift */,
+			);
+			path = Shopping;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -341,16 +361,20 @@
 				0412806F2AEFAD2D00972552 /* BirthdayViewController.swift in Sources */,
 				041280652AEFA2F000972552 /* SignTextField.swift in Sources */,
 				2BB8CA2A2BB70613008A2AD9 /* BirthDayViewModel.swift in Sources */,
+				2BBF33162BBC271D006C2435 /* EditViewController.swift in Sources */,
 				0412806C2AEFABFE00972552 /* PasswordViewController.swift in Sources */,
 				041280562AEFA04800972552 /* SignInViewController.swift in Sources */,
 				041280282AEF9BAB00972552 /* ViewController.swift in Sources */,
+				2BBF33112BBBF149006C2435 /* ShoppingView.swift in Sources */,
 				2BB8CA282BB6E9D7008A2AD9 /* SampleViewController.swift in Sources */,
 				041280632AEFA0CE00972552 /* PointButton.swift in Sources */,
 				041280242AEF9BAB00972552 /* AppDelegate.swift in Sources */,
 				041280732AEFAD4B00972552 /* NicknameViewController.swift in Sources */,
 				0412806A2AEFA91E00972552 /* SignUpViewController.swift in Sources */,
+				2BBF33142BBBF37A006C2435 /* ShoppingTableViewCell.swift in Sources */,
 				041280712AEFAD3D00972552 /* PhoneViewController.swift in Sources */,
 				041280262AEF9BAB00972552 /* SceneDelegate.swift in Sources */,
+				2BBF330F2BBBF0AB006C2435 /* ShoppingViewController.swift in Sources */,
 				041280582AEFA05300972552 /* SignInViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
