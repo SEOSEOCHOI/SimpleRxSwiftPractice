@@ -65,11 +65,7 @@ class BirthdayViewController: UIViewController {
   
     let nextButton = PointButton(title: "가입하기")
     
-    let year = BehaviorSubject(value: 2024)
-    let month = BehaviorSubject(value: 03)
-    let day = BehaviorSubject(value: 29)
-    
-    let validationText = BehaviorSubject(value: "만 17세 이상 가입 가능합니다.")
+    let viewModel = BirthdayViewModel()
     
     let disposeBag = DisposeBag()
     
@@ -84,56 +80,51 @@ class BirthdayViewController: UIViewController {
     }
     
     func bind() {
-
-        
-        year
-            .map { "\($0)년" }
-            .bind(to: yearLabel.rx.text)
-            .disposed(by: disposeBag)
-        
-        month
-            .map { "\($0)월" }
-            .bind(to: monthLabel.rx.text)
-            .disposed(by: disposeBag)
-        
-        day
-            .map { "\($0)일" }
-            .bind(to: dayLabel.rx.text)
-            .disposed(by: disposeBag)
-        
         birthDayPicker.rx.date
-            .bind(with: self) { owner, date in
-                let component = Calendar.current.dateComponents([.year, .month, .day], from: date)
-                
-                owner.year.onNext(component.year!)
-                owner.month.onNext(component.month!)
-                owner.day.onNext(component.day!)
-            }
+            .bind(to: viewModel.birthday)
             .disposed(by: disposeBag)
+        
+        viewModel.year
+            .asDriver(onErrorJustReturn: 2024)
+            .map { "\($0)년"}
+            .drive(yearLabel.rx.text)
+            .disposed(by: disposeBag)
+            
+        viewModel.month
+            .asDriver()
+            .map { "\($0)월" }
+            .drive(monthLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        viewModel.day
+            .asDriver(onErrorJustReturn: 03)
+            .drive(with: self, onNext: { owner, value in
+                owner.dayLabel.text = "\(value)일"
+            })
+            .disposed(by: disposeBag)
+
 
         let validation = birthDayPicker.rx.date
             .map { Calendar.current.date(byAdding: .year, value: 17, to: $0)! <= Date()}
          
          
-         validation.bind(with: self) { owner, value in
-             let textColor: UIColor = value ? .systemBlue : .systemRed
-             let buttonColor: UIColor = value ? .systemBlue : .lightGray
-             let infoText: String = value ? "가입 가능합니다." : "만 17세 이상 가입 가능합니다."
-             
-             
-             owner.infoLabel.textColor = textColor
-             
-             owner.nextButton.backgroundColor = buttonColor
-             owner.nextButton.isEnabled = value
-             
-             owner.validationText.on(.next(infoText))
-         }
+        validation.subscribe(with: self) { owner, value in
+            let textColor: UIColor = value ? .systemBlue : .systemRed
+            let buttonColor: UIColor = value ? .systemBlue : .lightGray
+            let infoText: String = value ? "가입 가능합니다." : "만 17세 이상 가입 가능합니다."
+            
+            
+            owner.infoLabel.textColor = textColor
+            owner.nextButton.backgroundColor = buttonColor
+            owner.nextButton.isEnabled = value
+           
+            owner.viewModel.validationText.accept(infoText)
+        }
          .disposed(by: disposeBag)
-         
-      
         
-        validationText
-            .bind(to: infoLabel.rx.text)
+        viewModel.validationText
+            .asDriver()
+            .drive(infoLabel.rx.text)
             .disposed(by: disposeBag)
         
         nextButton.rx.tap
