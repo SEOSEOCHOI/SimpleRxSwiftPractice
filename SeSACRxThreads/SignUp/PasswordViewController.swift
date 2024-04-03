@@ -16,9 +16,9 @@ class PasswordViewController: UIViewController {
     let nextButton = PointButton(title: "다음")
     let descriptionLabel = UILabel()
     
-    let validationText = BehaviorSubject(value: "8자 이상 입력해 주세요")
-
     let disposeBag = DisposeBag()
+    
+    let viewModel = PasswordViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,8 +31,9 @@ class PasswordViewController: UIViewController {
     }
     
     func bind() {
-        validationText
-            .bind(to: descriptionLabel.rx.text)
+        viewModel.validationText
+            .asDriver()
+            .drive(descriptionLabel.rx.text)
             .disposed(by: disposeBag)
         
         // Observable
@@ -56,7 +57,6 @@ class PasswordViewController: UIViewController {
             .rx
             .tap
             .bind(with: self) { owner, _ in
-                print("showAlert")
                 owner.navigationController?.pushViewController(PhoneViewController(), animated: true)
             }
             .disposed(by: disposeBag)
