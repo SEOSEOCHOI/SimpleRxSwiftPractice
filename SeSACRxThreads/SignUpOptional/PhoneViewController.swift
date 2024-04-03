@@ -14,9 +14,10 @@ class PhoneViewController: UIViewController {
    
     let phoneTextField = SignTextField(placeholderText: "연락처를 입력해주세요")
     let nextButton = PointButton(title: "다음")
-    let phoneNumber = BehaviorSubject(value: "010")
     
     let disposeBag = DisposeBag()
+    
+    let viewModel = PhoneViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,15 +41,14 @@ class PhoneViewController: UIViewController {
             .orEmpty
             .map { $0.count > 10 }
         
-        phoneNumber
+        viewModel.outputPhoneNumber
             .bind(to: phoneTextField.rx.text)
             .disposed(by: disposeBag)
         
         phoneTextField.rx.textInput.text.orEmpty
-            .map { $0.filter { $0.isNumber }}
-            .bind(to: phoneTextField.rx.text)
+            .asDriver()
+            .drive(viewModel.phoneNumber)
             .disposed(by: disposeBag)
-            
         
         validation
             .bind(with: self) { owner, value in
@@ -58,11 +58,6 @@ class PhoneViewController: UIViewController {
                 owner.nextButton.isEnabled = value
             }
             .disposed(by: disposeBag)
-        
-
-        
-
-            
     }
 
     
