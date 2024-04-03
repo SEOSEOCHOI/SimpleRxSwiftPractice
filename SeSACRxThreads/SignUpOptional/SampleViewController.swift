@@ -16,8 +16,7 @@ class SampleViewController: UIViewController {
     let textField = SignTextField(placeholderText: "내용을 입력해 주세요")
     let tableView = UITableView()
     
-    var inputTextList: [String] = []
-    let inputText = PublishSubject<[String]>()
+    let viewModel = SampleViewModel()
     
     let disposeBag = DisposeBag()
     
@@ -29,35 +28,30 @@ class SampleViewController: UIViewController {
     }
 
     func bind() {
-        
-        inputText.bind(to: tableView.rx.items(cellIdentifier: "cell", cellType: UITableViewCell.self)) { (indexpath, element, cell) in
+        viewModel.inputText.bind(to: tableView.rx.items(cellIdentifier: "cell", cellType: UITableViewCell.self)) { (indexpath, element, cell) in
             cell.textLabel?.text = "\(element)"
         }
         .disposed(by: disposeBag)
         
         tableView.rx.itemSelected
             .bind(with: self) { owner, indexPath in
-                owner.inputTextList.remove(at: indexPath.row)
-                owner.inputText.onNext(owner.inputTextList)
+                owner.viewModel.inputTextList.remove(at: indexPath.row)
+                owner.viewModel.inputText.onNext(owner.viewModel.inputTextList)
             }
             .disposed(by: disposeBag)
-        
         
         textField.rx
             .controlEvent([.editingDidEndOnExit])
             .withLatestFrom(textField.rx.text.orEmpty)
-            .distinctUntilChanged()
-            .bind(with: self) { owner, value in
-                owner.inputTextList.append(value)
-            }
+            .bind(with: self, onNext: { owner, value in
+                owner.viewModel.inputTextList.append(value)
+            })
             .disposed(by: disposeBag)
-
         
-        addButton.rx.tap.subscribe(with: self) { owner, _ in
-            owner.inputText.onNext(owner.inputTextList)
-        }
-        .disposed(by: disposeBag)
-        
+        // 추가 버튼
+        addButton.rx.tap
+            .bind(to: viewModel.addButtonClicked)
+            .disposed(by: disposeBag)
     }
 
     func configureLayout() {
