@@ -29,29 +29,26 @@ class PhoneViewController: UIViewController {
     }
     
     func bind() {
-        nextButton.rx.tap
+        let phoneNumber = phoneTextField.rx.textInput.text
+        let nextButtonTap = nextButton.rx.tap
+        
+        let input = PhoneViewModel.Input(phoneNumber: phoneNumber,
+                                         nextButtonTap: nextButtonTap)
+        
+        let output = viewModel.transform(input: input)
+        
+        output.nextButtonTap
             .bind(with: self) { owner, _ in
                 owner.navigationController?.pushViewController(NicknameViewController(), animated: true)
             }
             .disposed(by: disposeBag)
         
-        let validation = phoneTextField         
-            .rx
-            .text
-            .orEmpty
-            .map { $0.count > 10 }
-        
-        viewModel.outputPhoneNumber
-            .bind(to: phoneTextField.rx.text)
+        output.phoneNumber
+            .drive(phoneTextField.rx.text)
             .disposed(by: disposeBag)
         
-        phoneTextField.rx.textInput.text.orEmpty
-            .asDriver()
-            .drive(viewModel.phoneNumber)
-            .disposed(by: disposeBag)
-        
-        validation
-            .bind(with: self) { owner, value in
+        output.validation
+            .drive(with: self) { owner, value in
                 let color: UIColor = value ? .systemPink : .lightGray
                 
                 owner.nextButton.backgroundColor = color
