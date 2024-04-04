@@ -30,6 +30,10 @@
 		041280782AF1D14000972552 /* Resource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041280772AF1D14000972552 /* Resource.swift */; };
 		2BB8CA282BB6E9D7008A2AD9 /* SampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BB8CA272BB6E9D7008A2AD9 /* SampleViewController.swift */; };
 		2BB8CA2A2BB70613008A2AD9 /* BirthDayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BB8CA292BB70613008A2AD9 /* BirthDayViewModel.swift */; };
+		2BBA7A3D2BBD688400E094B6 /* ShoppingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BBA7A3C2BBD688400E094B6 /* ShoppingViewModel.swift */; };
+		2BBA7A3F2BBD6E4400E094B6 /* PasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BBA7A3E2BBD6E4400E094B6 /* PasswordViewModel.swift */; };
+		2BBA7A412BBD82DE00E094B6 /* PhoneViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BBA7A402BBD82DE00E094B6 /* PhoneViewModel.swift */; };
+		2BBA7A432BBD8BF400E094B6 /* SampleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BBA7A422BBD8BF400E094B6 /* SampleViewModel.swift */; };
 		2BBF330F2BBBF0AB006C2435 /* ShoppingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BBF330E2BBBF0AB006C2435 /* ShoppingViewController.swift */; };
 		2BBF33112BBBF149006C2435 /* ShoppingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BBF33102BBBF149006C2435 /* ShoppingView.swift */; };
 		2BBF33142BBBF37A006C2435 /* ShoppingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BBF33132BBBF37A006C2435 /* ShoppingTableViewCell.swift */; };
@@ -78,6 +82,10 @@
 		041280772AF1D14000972552 /* Resource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resource.swift; sourceTree = "<group>"; };
 		2BB8CA272BB6E9D7008A2AD9 /* SampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleViewController.swift; sourceTree = "<group>"; };
 		2BB8CA292BB70613008A2AD9 /* BirthDayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirthDayViewModel.swift; sourceTree = "<group>"; };
+		2BBA7A3C2BBD688400E094B6 /* ShoppingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingViewModel.swift; sourceTree = "<group>"; };
+		2BBA7A3E2BBD6E4400E094B6 /* PasswordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordViewModel.swift; sourceTree = "<group>"; };
+		2BBA7A402BBD82DE00E094B6 /* PhoneViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneViewModel.swift; sourceTree = "<group>"; };
+		2BBA7A422BBD8BF400E094B6 /* SampleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleViewModel.swift; sourceTree = "<group>"; };
 		2BBF330E2BBBF0AB006C2435 /* ShoppingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingViewController.swift; sourceTree = "<group>"; };
 		2BBF33102BBBF149006C2435 /* ShoppingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingView.swift; sourceTree = "<group>"; };
 		2BBF33132BBBF37A006C2435 /* ShoppingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingTableViewCell.swift; sourceTree = "<group>"; };
@@ -173,6 +181,7 @@
 			children = (
 				041280692AEFA91E00972552 /* SignUpViewController.swift */,
 				0412806B2AEFABFE00972552 /* PasswordViewController.swift */,
+				2BBA7A3E2BBD6E4400E094B6 /* PasswordViewModel.swift */,
 			);
 			path = SignUp;
 			sourceTree = "<group>";
@@ -199,10 +208,12 @@
 			isa = PBXGroup;
 			children = (
 				2BB8CA272BB6E9D7008A2AD9 /* SampleViewController.swift */,
+				2BBA7A422BBD8BF400E094B6 /* SampleViewModel.swift */,
 				0412806E2AEFAD2D00972552 /* BirthdayViewController.swift */,
-				041280702AEFAD3D00972552 /* PhoneViewController.swift */,
-				041280722AEFAD4B00972552 /* NicknameViewController.swift */,
 				2BB8CA292BB70613008A2AD9 /* BirthDayViewModel.swift */,
+				041280702AEFAD3D00972552 /* PhoneViewController.swift */,
+				2BBA7A402BBD82DE00E094B6 /* PhoneViewModel.swift */,
+				041280722AEFAD4B00972552 /* NicknameViewController.swift */,
 			);
 			path = SignUpOptional;
 			sourceTree = "<group>";
@@ -211,6 +222,7 @@
 			isa = PBXGroup;
 			children = (
 				2BBF330E2BBBF0AB006C2435 /* ShoppingViewController.swift */,
+				2BBA7A3C2BBD688400E094B6 /* ShoppingViewModel.swift */,
 				2BBF33102BBBF149006C2435 /* ShoppingView.swift */,
 				2BBF33132BBBF37A006C2435 /* ShoppingTableViewCell.swift */,
 				2BBF33152BBC271D006C2435 /* EditViewController.swift */,
@@ -358,7 +370,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				041280782AF1D14000972552 /* Resource.swift in Sources */,
+				2BBA7A3F2BBD6E4400E094B6 /* PasswordViewModel.swift in Sources */,
 				0412806F2AEFAD2D00972552 /* BirthdayViewController.swift in Sources */,
+				2BBA7A3D2BBD688400E094B6 /* ShoppingViewModel.swift in Sources */,
 				041280652AEFA2F000972552 /* SignTextField.swift in Sources */,
 				2BB8CA2A2BB70613008A2AD9 /* BirthDayViewModel.swift in Sources */,
 				2BBF33162BBC271D006C2435 /* EditViewController.swift in Sources */,
@@ -372,9 +386,11 @@
 				041280732AEFAD4B00972552 /* NicknameViewController.swift in Sources */,
 				0412806A2AEFA91E00972552 /* SignUpViewController.swift in Sources */,
 				2BBF33142BBBF37A006C2435 /* ShoppingTableViewCell.swift in Sources */,
+				2BBA7A412BBD82DE00E094B6 /* PhoneViewModel.swift in Sources */,
 				041280712AEFAD3D00972552 /* PhoneViewController.swift in Sources */,
 				041280262AEF9BAB00972552 /* SceneDelegate.swift in Sources */,
 				2BBF330F2BBBF0AB006C2435 /* ShoppingViewController.swift in Sources */,
+				2BBA7A432BBD8BF400E094B6 /* SampleViewModel.swift in Sources */,
 				041280582AEFA05300972552 /* SignInViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

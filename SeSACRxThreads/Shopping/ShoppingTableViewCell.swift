@@ -32,6 +32,19 @@ final class ShoppingTableViewCell: UITableViewCell {
         disposeBag = DisposeBag()
     }
     
+    func configureCell(item: Shopping) {
+        let doneImage = item.done ?
+        UIImage(systemName: "checkmark.square.fill") :
+        UIImage(systemName: "checkmark.square")
+        
+        let likeImage = item.like ?
+        UIImage(systemName: "star.fill") :
+        UIImage(systemName: "star")
+        
+        doneButton.setImage(doneImage, for: .normal)
+        likeButton.setImage(likeImage, for: .normal)
+    }
+    
     func configureView() {
         itemView.backgroundColor = .lightGray
         
