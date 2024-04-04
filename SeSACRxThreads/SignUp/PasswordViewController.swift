@@ -31,35 +31,36 @@ class PasswordViewController: UIViewController {
     }
     
     func bind() {
-        viewModel.validationText
-            .asDriver()
-            .drive(descriptionLabel.rx.text)
+        let password = passwordTextField.rx.text
+        let nextTap = nextButton.rx.tap
+        
+        let input = PasswordViewModel.Input(password: password, nextTap: nextTap)
+        
+        let output = viewModel.transform(input: input)
+        
+        output.password
+            .drive(passwordTextField.rx.text)
             .disposed(by: disposeBag)
         
-        // Observable
-        let validation = passwordTextField
-            .rx
-            .text
-            .orEmpty
-            .map { $0.count > 8}
+        output.nextTap
+            .bind(with: self) { owner, _ in
+                owner.navigationController?.pushViewController(PhoneViewController(), animated: true)
+            }
+            .disposed(by: disposeBag)
         
-        validation
-            .bind(with: self) { owner, value in
+        output.validate
+            .drive(with: self, onNext: { owner, value in
                 let color: UIColor = value ? .systemPink : .lightGray
                 
                 owner.nextButton.backgroundColor = color
                 owner.nextButton.isEnabled = value
                 owner.descriptionLabel.isHidden = value
-            }
+            })
             .disposed(by: disposeBag)
         
-        nextButton
-            .rx
-            .tap
-            .bind(with: self) { owner, _ in
-                owner.navigationController?.pushViewController(PhoneViewController(), animated: true)
-            }
-            .disposed(by: disposeBag)
+        output.validateMessage
+            .drive(descriptionLabel.rx.text).disposed(by: disposeBag)
+        
     }
     
     func configureLayout() {
