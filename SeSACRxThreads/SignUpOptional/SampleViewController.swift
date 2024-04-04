@@ -28,30 +28,20 @@ class SampleViewController: UIViewController {
     }
 
     func bind() {
-        viewModel.inputText.bind(to: tableView.rx.items(cellIdentifier: "cell", cellType: UITableViewCell.self)) { (indexpath, element, cell) in
+        
+        let addButtonTap = addButton.rx.tap
+        let itemSelected = tableView.rx.itemSelected
+        let inputText = textField.rx.text
+        
+        let input = SampleViewModel.Input(addButtonTap: addButtonTap,
+                              itemSelected: itemSelected,
+                              inputText: inputText)
+        let output = viewModel.transform(input: input)
+
+        output.outputList.drive(tableView.rx.items(cellIdentifier: "cell", cellType: UITableViewCell.self))  { (indexpath, element, cell) in
             cell.textLabel?.text = "\(element)"
-        }
+        }        
         .disposed(by: disposeBag)
-        
-        tableView.rx.itemSelected
-            .bind(with: self) { owner, indexPath in
-                owner.viewModel.inputTextList.remove(at: indexPath.row)
-                owner.viewModel.inputText.onNext(owner.viewModel.inputTextList)
-            }
-            .disposed(by: disposeBag)
-        
-        textField.rx
-            .controlEvent([.editingDidEndOnExit])
-            .withLatestFrom(textField.rx.text.orEmpty)
-            .bind(with: self, onNext: { owner, value in
-                owner.viewModel.inputTextList.append(value)
-            })
-            .disposed(by: disposeBag)
-        
-        // 추가 버튼
-        addButton.rx.tap
-            .bind(to: viewModel.addButtonClicked)
-            .disposed(by: disposeBag)
     }
 
     func configureLayout() {
