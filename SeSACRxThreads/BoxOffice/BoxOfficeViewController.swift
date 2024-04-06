@@ -21,19 +21,21 @@ class BoxOfficeViewController: UIViewController {
     let viewModel = BoxOfficeViewModel()
     
     func bind() {
-         
+         let recentText = PublishSubject<String>()
+        let input = BoxOfficeViewModel.Input(recentText: recentText,
+                                             searchText: searchBar.rx.text.orEmpty,
+                                             searchTap: searchBar.rx.searchButtonClicked)
+        let output = viewModel.transform(input: input)
         
-        viewModel.movie
-            .bind(
-                to: tableView.rx.items(
-                    cellIdentifier: SearchTableViewCell.identifier,
-                    cellType: SearchTableViewCell.self)
-            ) { (row, element, cell) in
-                cell.appNameLabel.text = element
+        
+        output.boxOfficeList
+            .bind(to: tableView.rx.items(cellIdentifier: SearchTableViewCell.identifier, cellType: SearchTableViewCell.self)) { indexPath, item, cell  in
+                cell.appNameLabel.text = item.movieNm
+                cell.downloadButton.setTitle(item.openDt, for: .normal)
             }
             .disposed(by: disposeBag)
 
-        viewModel.recent
+        output.recentList
             .bind(
                 to: collectionView.rx.items(
                     cellIdentifier: MovieCollectionViewCell.identifier,
@@ -49,7 +51,7 @@ class BoxOfficeViewController: UIViewController {
         )
             .map { $0.0 }
             .subscribe(with: self) { owner, value in
-                print(value, "Selected")
+                recentText.onNext(value)
             }
             .disposed(by: disposeBag)
          
