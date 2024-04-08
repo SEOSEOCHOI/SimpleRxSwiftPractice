@@ -16,35 +16,31 @@ enum APIError: Error {
 }
 
 class BoxOfficeNetwork {
-    
-    static func fetchBoxOfficeData(date: String) -> Observable<Movie> {
-        return Observable<Movie>.create { observer in
+    static func fetchSingleBoxOfficeData(date: String) -> Single<Movie> {
+        return Single.create { single -> Disposable in
             guard let url = URL(string: "https://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=f5eef3421c602c6cb7ea224104795888&targetDt=\(date)") else {
-                observer.onError(APIError.invalidURL)
+                single(.failure(APIError.invalidURL))
                 return Disposables.create()
             }
-            
             URLSession.shared.dataTask(with: url) { data, response, error in
                 
                 print("DataTask Succeed")
                 
                 if let _ = error {
-                    //2observer.onError(APIError.unknownResponse)
                     return
                 }
                 
                 guard let response = response as? HTTPURLResponse,
                       (200...299).contains(response.statusCode) else {
-                    observer.onError(APIError.statusError)
+                    single(.failure(APIError.statusError))
                     return
                 }
                 
                 if let data = data,
-                    let appData = try? JSONDecoder().decode(Movie.self, from: data) {
-                    observer.onNext(appData)
-                    observer.onCompleted()
+                   let appData = try? JSONDecoder().decode(Movie.self, from: data) {
+                    single(.success(appData))
                 } else {
-                    observer.onError(APIError.unknownResponse)
+                    single(.failure(APIError.unknownResponse))
                 }
             }.resume()
             return Disposables.create()
@@ -52,3 +48,5 @@ class BoxOfficeNetwork {
         .debug()
     }
 }
+
+

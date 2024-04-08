@@ -40,6 +40,7 @@ class BoxOfficeViewModel {
         
         // 셀 클릭. 최근 검색 기록
         input.recentText
+            .debug()
             .subscribe(with: self) { owner, value in
                 owner.recent.append(value)
                 recentList.accept(owner.recent)
@@ -53,12 +54,11 @@ class BoxOfficeViewModel {
             .map { guard let intText = Int($0)
                 else { return 20240405 }
             return intText }
-            .debug()
-            .debug()
             .map { String($0) }
-            .debug()
-            .flatMap { BoxOfficeNetwork.fetchBoxOfficeData(date: $0) }
-            .debug()
+            .flatMap { BoxOfficeNetwork.fetchSingleBoxOfficeData(date: $0)
+                    .catch { error in // Error일 경우  Emit X . 스트림 중단 없음.
+                        return Single<Movie>.never()
+                    }}
             .subscribe(with: self, onNext: { owner, value in
                 let data = value.boxOfficeResult.dailyBoxOfficeList
                 boxOfficeList.onNext(data)

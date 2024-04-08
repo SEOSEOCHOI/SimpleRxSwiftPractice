@@ -36,6 +36,7 @@ class BoxOfficeViewController: UIViewController {
             .disposed(by: disposeBag)
 
         output.recentList
+            .debug()
             .bind(
                 to: collectionView.rx.items(
                     cellIdentifier: MovieCollectionViewCell.identifier,
@@ -50,6 +51,7 @@ class BoxOfficeViewController: UIViewController {
             tableView.rx.itemSelected
         )
             .map { $0.0 }
+            .debug()
             .subscribe(with: self) { owner, value in
                 recentText.onNext(value)
             }
